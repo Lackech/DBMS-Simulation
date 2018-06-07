@@ -1,0 +1,25 @@
+group 'org.simulador.dbms'
+version '1.0'
+
+apply plugin: 'java'
+apply plugin: 'application'
+
+mainClassName = "com.simulador.dbms.Simulador"
+
+
+
+repositories {
+    mavenCentral()
+}
+
+jar {
+    baseName = 'simulador'
+    version =  '1.0'
+}
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+dependencies {
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+}
