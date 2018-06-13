@@ -50,10 +50,26 @@ public class Simulador {
 
     public static void main(String[] args){
         System.out.println("Pruebas");
-        DistributionType dt = DistributionType.RANDOM;
         DistributionGenerationNumber DGN = new DistributionGenerationNumber();
+        DistributionType dt = DistributionType.RANDOM;
 
-        System.out.println(DGN.identifyDistribution(dt));
+        for (int i = 0; i < 10; i++) {
+
+            System.out.println(DGN.identifyDistribution(dt));
+
+            dt = DistributionType.EXPONENTIAL;
+            DGN.setMEAN(1/0.7);
+            System.out.println(DGN.identifyDistribution(dt));
+
+            dt = DistributionType.NORMAL;
+            System.out.println(DGN.identifyDistribution(dt));
+
+            dt = DistributionType.UNIFORM;
+            DGN.setA(0);
+            DGN.setB(1);
+            System.out.println(DGN.identifyDistribution(dt));
+        }
+
     }
 
 

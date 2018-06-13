@@ -2,6 +2,7 @@ package com.simulador.statistics;
 import com.simulador.enums.DistributionType;
 
 import java.util.*;
+import java.lang.Math;
 
 /**
  * Clase que genera un numero aleatorio respecto a un tipo de distribucion deseada
@@ -13,6 +14,8 @@ public class DistributionGenerationNumber {
      * */
     private List<DistributionType> listaDistribucion;
     Random random;
+    int A, B;
+    double MEAN;
 
     /**
      * Constructor basico para la clase  */
@@ -34,13 +37,13 @@ public class DistributionGenerationNumber {
            case NORMAL: out = generateNormalDistributionNumber();
                break;
 
-           case UNIFORM: out = generateUniformDistributionNumber();
+           case UNIFORM: out = generateUniformDistributionNumber(A,B);
                break;
 
            case RANDOM: out = generateRandomNumber();
                break;
 
-           case EXPONENTIAL: out = generateExponentialDistributionNumber();
+           case EXPONENTIAL: out = generateExponentialDistributionNumber(MEAN);
                break;
        }
 
@@ -49,18 +52,26 @@ public class DistributionGenerationNumber {
     }
 
 
-    private double generateUniformDistributionNumber(){
-        double a = 0;
-        return a;
+    private double generateUniformDistributionNumber(int low, int high){
+        int a = low, b = high;
+        double rand = random.nextDouble();
+        return a + (b-a)*rand;
     }
     private double generateNormalDistributionNumber(){
 
-        double a = 0;
-        return a;
+       double randomNumer = 0;
+        for (int i = 0; i < 12; i++) {
+
+            randomNumer += random.nextDouble();
+        }
+
+        double Z = randomNumer - 6;
+
+        return 1 + (Math.sqrt(0.01) * Z);
     }
-    private double generateExponentialDistributionNumber(){
-        double a = 0;
-        return a;
+    private double generateExponentialDistributionNumber(double mean){
+        double lambda = mean;
+        return (-1/lambda)*Math.log(random.nextDouble());
 
     }
     private double generateRandomNumber(){
@@ -75,5 +86,17 @@ public class DistributionGenerationNumber {
 
     public void setListaDistribucion(List<DistributionType> listaDistribucion) {
         this.listaDistribucion = listaDistribucion;
+    }
+
+    public void setA(int a) {
+        A = a;
+    }
+
+    public void setB(int b) {
+        B = b;
+    }
+
+    public void setMEAN(double MEAN) {
+        this.MEAN = MEAN;
     }
 }
