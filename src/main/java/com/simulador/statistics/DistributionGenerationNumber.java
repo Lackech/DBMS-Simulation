@@ -1,7 +1,7 @@
 package com.simulador.statistics;
 import com.simulador.enums.DistributionType;
 
-import java.util.List;
+import java.util.*;
 
 /**
  * Clase que genera un numero aleatorio respecto a un tipo de distribucion deseada
@@ -12,40 +12,60 @@ public class DistributionGenerationNumber {
      * lista global donde se alamcenan los tipos de distribucioes solicitadas
      * */
     private List<DistributionType> listaDistribucion;
+    Random random;
 
     /**
      * Constructor basico para la clase  */
     public DistributionGenerationNumber() {
+
+
+        random = new Random();
     }
 
     /**
      * Metodo encargado de reconocer el tipo de distribucion deseada
      * @param DT tipo de distribucion
      * */
-   public void identifyDistribution(DistributionType DT ){
+   public double identifyDistribution(DistributionType DT ){
 
+        double out = 0;
+       switch(DT){
+
+           case NORMAL: out = generateNormalDistributionNumber();
+               break;
+
+           case UNIFORM: out = generateUniformDistributionNumber();
+               break;
+
+           case RANDOM: out = generateRandomNumber();
+               break;
+
+           case EXPONENTIAL: out = generateExponentialDistributionNumber();
+               break;
+       }
+
+       return out;
 
     }
 
 
-    double generateUniformDistributionNumber(){
+    private double generateUniformDistributionNumber(){
         double a = 0;
         return a;
     }
-    double generateNormalDistributionNumber(){
+    private double generateNormalDistributionNumber(){
 
         double a = 0;
         return a;
     }
-    double generateExponentialDistributionNumber(){
+    private double generateExponentialDistributionNumber(){
         double a = 0;
         return a;
 
     }
-    double generateRandomNumber(){
+    private double generateRandomNumber(){
 
-        double a = 0;
-        return a;
+        return random.nextDouble();
     }
 
 
