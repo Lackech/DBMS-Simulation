@@ -65,8 +65,7 @@ public class Simulador {
             System.out.println(DGN.identifyDistribution(dt));
 
             dt = DistributionType.UNIFORM;
-            DGN.setA(0);
-            DGN.setB(1);
+            DGN.setParams(1, 64);
             System.out.println(DGN.identifyDistribution(dt));
         }
 

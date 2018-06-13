@@ -88,11 +88,8 @@ public class DistributionGenerationNumber {
         this.listaDistribucion = listaDistribucion;
     }
 
-    public void setA(int a) {
+    public void setParams(int a, int b) {
         A = a;
-    }
-
-    public void setB(int b) {
         B = b;
     }
 
