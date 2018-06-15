@@ -1,5 +1,7 @@
 package com.simulador.statistics;
 
+import java.util.ArrayList;
+
 /**
  *
  */
@@ -23,6 +25,44 @@ public class Statistics {
         this.simulationTime = simulationTime;
         this.analizedQueries = analizedQueries;
         this.refusedQueries = refusedQueries;
+    }
+
+    double calculateAverageSizeQueque(ArrayList<Integer> queueSizes){
+
+        double resultAverageQueque = 0;
+
+        for (int i = 0; i < queueSizes.size(); i++) {
+
+            resultAverageQueque += queueSizes.get(i);
+        }
+
+        resultAverageQueque = resultAverageQueque/queueSizes.size();
+
+        return resultAverageQueque;
+    }
+
+    double calculateAverageLifetimeQuery(ArrayList<Float> responseTime){
+
+        double resultAverageLifeTime = 0;
+
+        for (int i = 0; i < responseTime.size(); i++) {
+
+            resultAverageLifeTime += responseTime.get(i);
+        }
+
+        resultAverageLifeTime = resultAverageLifeTime/this.analizedQueries;
+
+        // o si no...
+       /* int responseTime = this.analizedQueries / lambda;
+        resultAverageLifeTime = responseTime;*/
+       
+        return resultAverageLifeTime;
+    }
+    double calculateAverageTimePerQueryType(){
+
+        double resultTPQ = 0;
+
+        return resultTPQ;
     }
 
     public double getSimulationTime() {

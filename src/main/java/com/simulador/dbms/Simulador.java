@@ -49,7 +49,7 @@ public class Simulador {
 
 
     public static void main(String[] args){
-        System.out.println("Pruebas");
+        System.out.println("Pruebas Generacion de Distribucion");
         DistributionGenerationNumber DGN = new DistributionGenerationNumber();
         DistributionType dt = DistributionType.RANDOM;
 
@@ -68,7 +68,6 @@ public class Simulador {
             DGN.setParams(1, 64);
             System.out.println(DGN.identifyDistribution(dt));
         }
-
     }
 
 
