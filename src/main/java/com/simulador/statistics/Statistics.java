@@ -55,7 +55,7 @@ public class Statistics {
         // o si no...
        /* int responseTime = this.analizedQueries / lambda;
         resultAverageLifeTime = responseTime;*/
-       
+
         return resultAverageLifeTime;
     }
     double calculateAverageTimePerQueryType(){
