@@ -3,5 +3,5 @@ package com.simulador.modules;
 /**
  *
  */
-public class ProcessAdmModule {
+public class ProcessAdmModule extends GeneralModule {
 }
