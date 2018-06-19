@@ -3,5 +3,5 @@ package com.simulador.modules;
 /**
  *
  */
-public class ClientAdmModule {
+public class ClientAdmModule extends GeneralModule {
 }

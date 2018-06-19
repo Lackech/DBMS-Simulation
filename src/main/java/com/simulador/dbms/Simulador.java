@@ -1,6 +1,8 @@
 package com.simulador.dbms;
 
+import com.simulador.enums.DistributionType;
 import com.simulador.modules.*;
+import com.simulador.statistics.DistributionGenerationNumber;
 import com.simulador.statistics.Statistics;
 
 import java.util.ArrayList;
@@ -47,7 +49,25 @@ public class Simulador {
 
 
     public static void main(String[] args){
-        System.out.println("Hola Mundo");
+        System.out.println("Pruebas Generacion de Distribucion");
+        DistributionGenerationNumber DGN = new DistributionGenerationNumber();
+        DistributionType dt = DistributionType.RANDOM;
+
+        for (int i = 0; i < 10; i++) {
+
+            System.out.println(DGN.identifyDistribution(dt));
+
+            dt = DistributionType.EXPONENTIAL;
+            DGN.setMEAN(1/0.7);
+            System.out.println(DGN.identifyDistribution(dt));
+
+            dt = DistributionType.NORMAL;
+            System.out.println(DGN.identifyDistribution(dt));
+
+            dt = DistributionType.UNIFORM;
+            DGN.setParams(1, 64);
+            System.out.println(DGN.identifyDistribution(dt));
+        }
     }
 
 

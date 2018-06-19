@@ -3,5 +3,5 @@ package com.simulador.modules;
 /**
  *
  */
-public class QueryExecutionerModule {
+public class QueryExecutionerModule extends GeneralModule{
 }
