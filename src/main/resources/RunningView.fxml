@@ -8,7 +8,6 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.simulador.Interface.RunningController">
    <children>
       <Pane prefHeight="402.0" prefWidth="716.0" style="-fx-background-color: #232F34;">
@@ -29,13 +28,13 @@
             <Label layoutX="66.0" layoutY="247.0" text="-Modulo de Procesamiento de Consultas:" textFill="#f9aa33" />
             <Label layoutX="66.0" layoutY="285.0" text="-Modulo de Transacciones y Almacenamiento:" textFill="#f9aa33" />
             <Separator layoutX="358.0" layoutY="122.0" orientation="VERTICAL" prefHeight="200.0" />
-            <Label layoutX="375.0" layoutY="125.0" text="Cantidad de conexiones descargtadas:" textFill="WHITE">
+            <Label layoutX="375.0" layoutY="125.0" text="Cantidad de conexiones descartadas:" textFill="WHITE">
                <font>
                   <Font size="14.0" />
                </font>
             </Label>
-            <Label fx:id="idLabelNext" layoutX="518.0" layoutY="334.0" text="CONTINUAR" textFill="#4a6572" />
-            <ImageView fx:id="idNextRunning" fitHeight="43.0" fitWidth="39.0" layoutX="592.0" layoutY="323.0" pickOnBounds="true" preserveRatio="true">
+            <Label fx:id="idLabelNext" layoutX="518.0" layoutY="334.0" onMouseClicked="#showNext_Label" text="CONTINUAR" textFill="#4a6572" />
+            <ImageView fx:id="idNextRunning" fitHeight="43.0" fitWidth="39.0" layoutX="592.0" layoutY="323.0" onMouseClicked="#showNextView" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@nextIcon.png" />
                </image>
