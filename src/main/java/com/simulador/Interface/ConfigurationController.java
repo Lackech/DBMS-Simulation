@@ -3,6 +3,7 @@ package com.simulador.Interface;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -27,6 +28,9 @@ public class ConfigurationController extends Application {
     public void saveData(ActionEvent actionEvent) {
 
         currentStage.close();
+        Node source = (Node)  actionEvent.getSource();
+        Stage stage  = (Stage) source.getScene().getWindow();
+        stage.close();
     }
 
     public void selectSlowMode(ActionEvent actionEvent) {

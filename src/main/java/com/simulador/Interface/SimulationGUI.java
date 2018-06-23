@@ -3,6 +3,7 @@ package com.simulador.Interface;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
@@ -46,7 +47,7 @@ public class SimulationGUI extends Application {
     public void runSimulation(ActionEvent actionEvent) throws Exception {
 
         runController.start(new Stage());
-        Node  source = (Node)  actionEvent.getSource();
+        Node source = (Node)  actionEvent.getSource();
         Stage stage  = (Stage) source.getScene().getWindow();
         stage.close();
     }

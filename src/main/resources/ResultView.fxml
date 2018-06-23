@@ -8,7 +8,6 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-
 <AnchorPane prefHeight="372.0" prefWidth="749.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.simulador.Interface.ResultController">
    <children>
       <Pane prefHeight="379.0" prefWidth="749.0" style="-fx-background-color: #232F34;">
@@ -46,7 +45,7 @@
                </font>
             </Label>
             <Label layoutX="606.0" layoutY="95.0" text="Simulacion #: " textFill="#f9aa33" />
-            <ImageView fx:id="idNextIconResult" fitHeight="40.0" fitWidth="37.0" layoutX="680.0" layoutY="324.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="idNextIconResult" fitHeight="40.0" fitWidth="37.0" layoutX="680.0" layoutY="324.0" onMouseClicked="#goToMain" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@nextIcon.png" />
                </image>
