@@ -2,47 +2,61 @@ package com.simulador.modules;
 
 import com.simulador.dbms.*;
 
+import java.util.List;
+import java.util.Queue;
+
+/**
+ *  Abstract class of a module.
+ */
 public abstract class GeneralModule {
 
-    private double timeOut;
-    private boolean busy;
 
-    public GeneralModule() {
+    private int totalProcessedQueries;
 
-        timeOut = 0;
-        busy = false;
+
+    protected boolean busy;
+
+    protected GeneralModule nextModule;
+
+    protected Queue<Query> queue;
+
+    protected int servers;
+
+    protected Simulator simulation;
+
+    protected boolean hasQueue = true;
+
+
+
+
+    public abstract void processEntry(Query query);
+
+
+    public abstract void processExit(Query query);
+
+
+    public abstract void processTerminate(Query query);
+
+
+    public abstract void generateServiceEvent(Query query);
+
+
+    public abstract boolean isBusy();
+
+
+    public abstract int getNumberOfFreeServers();
+
+
+    public int getQueueSize() {
+        return queue.size();
     }
 
 
-    boolean reachTimeOut(Query query){
-
-        return true;
+    public int getTotalProcessedQueries() {
+        return totalProcessedQueries;
     }
 
-    void processEvent(Event event){
-
+    public void setTotalProcessedQueries(int totalProcessedQueries) {
+        this.totalProcessedQueries = totalProcessedQueries;
     }
-
-    void generateExitEvent(Event event){
-
-
-    }
-
-     void generateNextEvent(Event event){
-
-
-     }
-     Integer obtainSizeQueue(){
-
-        Integer i = 0;
-
-        return i;
-     }
-
-    boolean isBusy(){
-
-        return busy;
-    }
-
-
 }

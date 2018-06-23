@@ -7,5 +7,5 @@ public enum DistributionType {
     UNIFORM,
     EXPONENTIAL,
     NORMAL,
-    RANDOM
+    NUMRANDOM
 }
