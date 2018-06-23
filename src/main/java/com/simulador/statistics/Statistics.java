@@ -27,16 +27,16 @@ public class Statistics {
         this.refusedQueries = refusedQueries;
     }
 
-    double calculateAverageSizeQueque(ArrayList<Integer> queueSizes){
+    double calculateAverageSizeQueque(ArrayList<Integer> queueAverageSizes){
 
         double resultAverageQueque = 0;
 
-        for (int i = 0; i < queueSizes.size(); i++) {
+        for (int i = 0; i < queueAverageSizes.size(); i++) {
 
-            resultAverageQueque += queueSizes.get(i);
+            resultAverageQueque += queueAverageSizes.get(i);
         }
 
-        resultAverageQueque = resultAverageQueque/queueSizes.size();
+        resultAverageQueque = resultAverageQueque/queueAverageSizes.size();
 
         return resultAverageQueque;
     }

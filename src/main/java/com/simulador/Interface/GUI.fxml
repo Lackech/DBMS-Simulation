@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane style="-fx-background-color: #ffffff;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #232F34;">
+         <children>
+            <Button fx:id="idConfigParam" layoutX="114.0" layoutY="306.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="105.0" style="-fx-background-color: #4A6572;" text="Configuracion" />
+            <Button fx:id="idInicio" layoutX="382.0" layoutY="306.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="105.0" style="-fx-background-color: #4A6572;" text="Inicio" />
+            <Label layoutX="63.0" layoutY="60.0" prefHeight="82.0" prefWidth="474.0" text="Bienvenido al ejecutador de Simulaciones" textFill="#f8f7f7">
+               <font>
+                  <Font name="System Bold" size="24.0" />
+               </font>
+            </Label>
+            <Label layoutX="114.0" layoutY="187.0" text="Configure los parametros antes de iniciar " textFill="#f9aa33">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+            <ImageView fitHeight="34.0" fitWidth="42.0" layoutX="552.0" layoutY="26.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@infoIcon.png" />
+               </image>
+            </ImageView>
+         </children>
+      </Pane>
+   </children>
+</AnchorPane>
