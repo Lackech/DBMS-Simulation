@@ -26,12 +26,10 @@ public class ProcessAdmModule extends GeneralModule {
         setCurrentSystemCalls(0);
         this.availableSystemCalls = availableSystemCalls;
         servers = availableSystemCalls;
-
     }
 
     @Override
     public void processEntry(Query query) {
-
         if (this.isBusy()) {
             query.setInQueue(true);
             queue.add(query);
@@ -45,23 +43,18 @@ public class ProcessAdmModule extends GeneralModule {
 
     @Override
     public void processExit(Query query) {
-
-        setTotalProcessedQueries(getTotalProcessedQueries()+1);
+        setTotalProcessedQueries(getTotalProcessedQueries() + 1);
         if (queue.size() > 0) {
             double normalValue = DistributionGenerationNumber.getNextRandomValueByNormal(1.5, Math.sqrt(0.1));
             Query quer = queue.poll();
             quer.setInQueue(false);
             simulation.addEvent(new Event(simulation.getClock() + normalValue,
                     quer, EventType.exitProcessAdmModule));
-
-
         } else {
             setCurrentSystemCalls(getCurrentSystemCalls() - 1);
-
         }
         if (!query.isTerminate()) {
             nextModule.generateEvent(query);
-
         } else {
             int actualConnections = simulation.getClientConnectionModule().getCurrentConnections() - 1;
             simulation.getClientConnectionModule().setCurrentConnections(actualConnections);
@@ -70,33 +63,26 @@ public class ProcessAdmModule extends GeneralModule {
 
     @Override
     public void processTerminate(Query query) {
-
         if (query.isInQueue()) {
             queue.remove(query);
             int actualConnections = simulation.getClientConnectionModule().getCurrentConnections() - 1;
             simulation.getClientConnectionModule().setCurrentConnections(actualConnections);
-
-
         } else
             query.setTerminate(true);
-
         Event killEventToRemove = simulation.getKillEventsTable().get(query.getId());
         simulation.getKillEventsTable().remove(killEventToRemove);
         simulation.getEventList().remove(killEventToRemove);
-
     }
 
     @Override
     public void generateEvent(Query query) {
-
         query.setModule(2);
         simulation.addEvent(new Event(simulation.getClock(), query, EventType.enterProcessAdmModule));
-
     }
 
     @Override
     public boolean isBusy() {
-        if(getCurrentSystemCalls() == availableSystemCalls)
+        if (getCurrentSystemCalls() == availableSystemCalls)
             return true;
         else
             return false;
@@ -104,7 +90,7 @@ public class ProcessAdmModule extends GeneralModule {
 
     @Override
     public int getNumberOfFreeServers() {
-        return availableSystemCalls- getCurrentSystemCalls();
+        return availableSystemCalls - getCurrentSystemCalls();
     }
 
     public int getCurrentSystemCalls() {

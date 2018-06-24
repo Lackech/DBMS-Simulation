@@ -30,13 +30,10 @@ public class QueryProcessorModule extends GeneralModule {
 
     @Override
     public void processEntry(Query query) {
-
         if (isBusy()) {
             query.setInQueue(true);
             queue.add(query);
-
         } else {
-
             setCurrentProcesses(getCurrentProcesses() + 1);
             double exitTime = timeInQueryProcessorModule(query.getType());
             simulation.addEvent(new Event(simulation.getClock() + exitTime,
@@ -46,17 +43,14 @@ public class QueryProcessorModule extends GeneralModule {
 
     @Override
     public void processExit(Query query) {
-
         if (queue.size() > 0) {
             double exitTime = timeInQueryProcessorModule(queue.peek().getType());
             Query query1 = queue.poll();
             query1.setInQueue(false);
             simulation.addEvent(new Event(simulation.getClock() + exitTime,
                     query1, EventType.exitQueryProcessorModule));
-
         } else {
             setCurrentProcesses(getCurrentProcesses() - 1);
-
         }
 
         if (!query.isTerminate()) {
@@ -70,13 +64,10 @@ public class QueryProcessorModule extends GeneralModule {
     @Override
     public void processTerminate(Query query) {
         setTotalProcessedQueries(getTotalProcessedQueries()+1);
-
         if (query.isInQueue()) {
             queue.remove(query);
-
             int actualConnections = simulation.getClientConnectionModule().getCurrentConnections() - 1;
             simulation.getClientConnectionModule().setCurrentConnections(actualConnections);
-
         } else {
             query.setTerminate(true);
         }
@@ -87,10 +78,8 @@ public class QueryProcessorModule extends GeneralModule {
 
     @Override
     public void generateEvent(Query query) {
-
         query.setModule(3);
         simulation.addEvent(new Event(simulation.getClock(), query, EventType.enterQueryProcessorModule));
-
     }
 
     @Override
@@ -115,7 +104,6 @@ public class QueryProcessorModule extends GeneralModule {
         double permitVerificationTime;
         double queryOptimizationTime;
         double randomNumber = rnd.nextFloat();
-
         if (randomNumber < 0.7) {
             lexicalValidationTime = 0.1;
         } else {
@@ -124,7 +112,6 @@ public class QueryProcessorModule extends GeneralModule {
         syntacticalValidationTime = DistributionGenerationNumber.getNextRandomValueByUniform(0, 0.8);
         semanticValidationTime = DistributionGenerationNumber.getNextRandomValueByNormal(1, 0.5);
         permitVerificationTime = DistributionGenerationNumber.getNextRandomValueByExponential(1 / 0.7);
-
         if (query.equals(QueryType.SELECT) || query.equals(QueryType.JOIN)) {
             queryOptimizationTime = 0.1;
         } else {

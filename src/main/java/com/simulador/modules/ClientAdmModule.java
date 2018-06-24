@@ -30,6 +30,8 @@ public class ClientAdmModule extends GeneralModule {
 
     private int currentId;
 
+    private int numberOfConnections;
+
     public ClientAdmModule(Simulator simulation, GeneralModule nextModule, int kConnections) {
         this.simulation = simulation;
         this.nextModule = nextModule;
@@ -37,7 +39,7 @@ public class ClientAdmModule extends GeneralModule {
         allQueries = new LinkedList<>();
         queue = new LinkedBlockingQueue<>();
         currentId = 1;
-        rejectedConnections = 0;
+        setRejectedConnections(0);
         setCurrentConnections(0);
         setTotalProcessedQueries(0);
         servers = kConnections;
@@ -119,9 +121,9 @@ public class ClientAdmModule extends GeneralModule {
 
     private void processArrivalToFirstModule(Query query) {
         if (isBusy())
-            rejectedConnections++;
+            setRejectedConnections(getRejectedConnections() + 1);
         else {
-
+            setNumberOfConnections(getNumberOfConnections() + 1);
             setCurrentConnections(getCurrentConnections() + 1);
             double time = getNextExitTime();
             simulation.addEvent(new Event(simulation.getClock() + time, query,
@@ -153,7 +155,6 @@ public class ClientAdmModule extends GeneralModule {
 
     private void processSuccessExit(Query query) {
         setTotalProcessedQueriesFromLastModule(getTotalProcessedQueriesFromLastModule() + 1);
-
         setCurrentConnections(getCurrentConnections() - 1);
         query.setLifeTime(simulation.getClock() - query.getEntryTime());
         Event eventToRemove = simulation.getKillEventsTable().get(query.getId());
@@ -185,5 +186,21 @@ public class ClientAdmModule extends GeneralModule {
 
     public void setTotalProcessedQueriesFromLastModule(int totalProcessedQueriesFromLastModule) {
         this.totalProcessedQueriesFromLastModule = totalProcessedQueriesFromLastModule;
+    }
+
+    public int getRejectedConnections() {
+        return rejectedConnections;
+    }
+
+    public void setRejectedConnections(int rejectedConnections) {
+        this.rejectedConnections = rejectedConnections;
+    }
+
+    public int getNumberOfConnections() {
+        return numberOfConnections;
+    }
+
+    public void setNumberOfConnections(int numberOfConnections) {
+        this.numberOfConnections = numberOfConnections;
     }
 }

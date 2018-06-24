@@ -34,42 +34,29 @@ public class QueryExecutionerModule extends GeneralModule {
         if (isBusy()) {
             query.setInQueue(true);
             queue.add(query);
-
         } else {
-
             setCurrentSentences(getCurrentSentences() + 1);
             double time = getTotalTime(query);
             double exitTime = simulation.getClock() + time;
             simulation.addEvent(new Event(exitTime, query, EventType.exitQueryExecModule));
-
         }
-
     }
 
     @Override
     public void processExit(Query query) {
         setTotalProcessedQueries(getTotalProcessedQueries()+1);
-
-
-
         if (queue.size() > 0) {
             Query quer = queue.poll();
             double time = getTotalTime(quer);
             double exitTime = simulation.getClock() + time;
             quer.setInQueue(false);
             simulation.addEvent(new Event(exitTime, quer, EventType.exitQueryExecModule));
-
         } else {
             setCurrentSentences(getCurrentSentences() - 1);
-
         }
-
         if (!query.isTerminate()) {
             query.setReady(true);
-
             nextModule.generateEvent(query);
-
-
         } else {
             int actualConnections = simulation.getClientConnectionModule().getCurrentConnections() - 1;
             simulation.getClientConnectionModule().setCurrentConnections(actualConnections);
@@ -78,10 +65,8 @@ public class QueryExecutionerModule extends GeneralModule {
 
     @Override
     public void processTerminate(Query query) {
-
         if (query.isInQueue()) {
             queue.remove(query);
-
             int actualConnections = simulation.getClientConnectionModule().getCurrentConnections() - 1;
             simulation.getClientConnectionModule().setCurrentConnections(actualConnections);
         } else {
@@ -96,7 +81,6 @@ public class QueryExecutionerModule extends GeneralModule {
     public void generateEvent(Query query) {
         query.setModule(5);
         simulation.addEvent(new Event(simulation.getClock(), query, EventType.enterQueryExecModule));
-
     }
 
     @Override
@@ -113,7 +97,6 @@ public class QueryExecutionerModule extends GeneralModule {
     }
 
     public double getBlockExecutingTime(int numberOfBlocks) {
-
         return Math.pow(numberOfBlocks, 2) / 1000;
     }
 
