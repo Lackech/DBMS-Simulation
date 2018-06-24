@@ -33,13 +33,14 @@ public class Simulator {
 
     private boolean slowMode;
 
-    private double delayTime;
 
     private PriorityQueue<Event> eventList;
 
     private Hashtable<Integer, Event> terminateEventsTable;
 
     private int simulationId;
+
+    private double delay;
 
     private ClientAdmModule clientConnectionModule;
 
@@ -51,8 +52,8 @@ public class Simulator {
 
     private QueryExecutionerModule executionModule;
 
-    public Simulator(int simulationId, double delayTime, int kConnections, int availableSystemCalls, int nAvailableProcesses,
-                      int pConcurrentQueries, int mSentences, double timeOut, double maxTimeSimulation) {
+    public Simulator(int simulationId,double delay ,int kConnections, int availableSystemCalls, int nAvailableProcesses,
+                      int pConcurrentQueries, int mParalellSentences, double timeOut, double maxTimeSimulation) {
 
 
         this.setSimulationId(simulationId);
@@ -62,22 +63,25 @@ public class Simulator {
         this.maxTimeSimulation = maxTimeSimulation;
         eventList = new PriorityQueue<>();
         this.availableSystemCalls = availableSystemCalls;
-        this.delayTime = delayTime;
+        this.delay = delay;
 
-        setExecutionModule(new QueryExecutionerModule(this, mSentences));
+        setExecutionModule(new QueryExecutionerModule(this, mParalellSentences));
         setTransactionAndDataAccessModule(new TransactionAdmModule(this, getExecutionModule(), pConcurrentQueries));
         setQueryProcessingModule(new QueryProcessorModule(this, getTransactionAndDataAccessModule(), nAvailableProcesses));
         setProcessManagerModule(new ProcessAdmModule(this, getQueryProcessingModule(), availableSystemCalls));
         setClientConnectionModule(new ClientAdmModule(this, getProcessManagerModule(), kConnections));
         getExecutionModule().setNextModule(getClientConnectionModule());
 
+
         this.kConnections = kConnections;
         this.availableSystemCalls = availableSystemCalls;
         this.nAvailableProcesses = nAvailableProcesses;
         this.pConcurrentQueries = pConcurrentQueries;
-        this.mParalellSentences = mSentences;
-        getClientConnectionModule().generateFirstArrival();
+        this.mParalellSentences = mParalellSentences;
+        clientConnectionModule.generateFirstArrival();
         terminateEventsTable = new Hashtable<>();
+
+
 
     }
 
@@ -153,54 +157,51 @@ public class Simulator {
     }
 
     public String getData(Event event) {
-        String simulation = "Simulation number " + getSimulationId() + "\n";
-        String parameters = "Available connections(k): " + getClientConnectionModule().getNumberOfFreeServers() +
-                "\nAvailable Systems Calls: " + getProcessManagerModule().getNumberOfFreeServers() +
-                "\nAvailable Processes for query processing(n): " + getQueryProcessingModule().getNumberOfFreeServers() +
-                "\nAvailable processes for query transactions(p): " + getTransactionAndDataAccessModule().getNumberOfFreeServers() +
-                "\nAvailable processes for query executions(m): " + getExecutionModule().getNumberOfFreeServers();
+        String simulationtxt = "Simulation number " + getSimulationId() + "\n";
+        String configParams = "Connections(k): " + getClientConnectionModule().getCurrentConnections() +
+                "\nSystems Calls " + getProcessManagerModule().getCurrentSystemCalls() +
+                "\nProcesses for queries(n): " + getQueryProcessingModule().getCurrentProcesses() +
+                "\nProcesses for transactions(p): " + getTransactionAndDataAccessModule().getCurrentProcessedQueries() +
+                "\nProcesses for executions(m): " + getExecutionModule().getCurrentSentences();
 
-        String clock = "\nClock time: " + getClock();
+        String clock = "\nClock: " + getClock();
 
-        String eventInExecution = "\nExecuting " + event.getTypeOfEvent() + " in " + event.getModule() + " module\n\n";
+        String eventInExecution = "\nExecuting ---->  " + event.getTypeOfEvent() + "\n\n";
 
         String clientConnectionData = "Client Connection Module: \n" +
-                "Occupied servers: " + getClientConnectionModule().getCurrentConnections() + "\n" +
+                "Busy Servers: " + getClientConnectionModule().getCurrentConnections() + "\n" +
                 "Free Servers: " + getClientConnectionModule().getNumberOfFreeServers() + "\n" +
                 "Size of the Queue: " + getClientConnectionModule().getQueueSize() + "\n" +
-                "Processed queries: " + clientConnectionModule.getTotalProcessedQueries() + "\n\n";
+                "Processed queries in this module: " + clientConnectionModule.getTotalProcessedQueries() + "\n\n";
 
         String processManagerData = "Process Manager Module: \n" +
-                "Occupied servers: " + getProcessManagerModule().getCurrentSystemCalls() + "\n" +
+                "Busy servers: " + getProcessManagerModule().getCurrentSystemCalls() + "\n" +
                 "Free Servers: " + getProcessManagerModule().getNumberOfFreeServers() + "\n" +
                 "Size of the Queue: " + getProcessManagerModule().getQueueSize() + "\n" +
-                "Processed queries: " + processManagerModule.getTotalProcessedQueries() + "\n\n";
+                "Processed queries in this module: " + processManagerModule.getTotalProcessedQueries() + "\n\n";
 
         String queryProcessingData = "Query Processing Module: \n" +
-                "Occupied servers: " + getQueryProcessingModule().getCurrentProcesses() + "\n" +
+                "Busy servers: " + getQueryProcessingModule().getCurrentProcesses() + "\n" +
                 "Free Servers: " + getQueryProcessingModule().getNumberOfFreeServers() + "\n" +
                 "Size of the Queue: " + getQueryProcessingModule().getQueueSize() + "\n" +
-                "Processed queries: " + queryProcessingModule.getTotalProcessedQueries() + "\n\n";
+                "Processed queries in this module: " + queryProcessingModule.getTotalProcessedQueries() + "\n\n";
 
         String transactionAndDataAccessData = "Transaction and Data Access Module: \n" +
-                "Occupied servers: " + getTransactionAndDataAccessModule().getNumberOfFreeServers() + "\n" +
+                "Busy servers: " + getTransactionAndDataAccessModule().getNumberOfFreeServers() + "\n" +
                 "Free Servers: " + getTransactionAndDataAccessModule().getNumberOfFreeServers() + "\n" +
                 "Size of the Queue: " + getTransactionAndDataAccessModule().getQueueSize() + "\n" +
-                "Processed queries: " + transactionAndDataAccessModule.getTotalProcessedQueries() + "\n\n";
+                "Processed queries in this module: " + transactionAndDataAccessModule.getTotalProcessedQueries() + "\n\n";
 
         String executionData = "Execution Module: \n" +
-                "Occupied servers: " + getExecutionModule().getCurrentSentences() + "\n" +
+                "Busy servers: " + getExecutionModule().getCurrentSentences() + "\n" +
                 "Free Servers: " + getExecutionModule().getNumberOfFreeServers() + "\n" +
                 "Size of the Queue: " + getExecutionModule().getQueueSize() + "\n" +
-                "Processed queries: " + executionModule.getTotalProcessedQueries() + "\n\n";
+                "Processed queries in this module: " + executionModule.getTotalProcessedQueries() + "\n\n";
 
-        String lastModuleData = "Exit Module: \n" +
-                "Occupied servers: " + getClientConnectionModule().getCurrentConnections() + "\n" +
-                "Free Servers: " + getClientConnectionModule().getNumberOfFreeServers() + "\n" +
-                "Size of the Queue: " + getClientConnectionModule().getQueueSize() + "\n" +
-                "Processed queries: " + clientConnectionModule.getTotalProcessedQueriesFromLastModule() + "\n\n";
+        String lastModuleData = "Client Connection Module when finish a query: \n" +
+                "Processed successful queries: " + clientConnectionModule.getTotalProcessedQueriesFromLastModule() + "\n\n";
 
-        return simulation + parameters + clock + eventInExecution + clientConnectionData +
+        return simulationtxt + configParams + clock + eventInExecution + clientConnectionData +
                 processManagerData + queryProcessingData + transactionAndDataAccessData + executionData + lastModuleData;
     }
 
@@ -214,7 +215,7 @@ public class Simulator {
             data.update(data.getGraphics());
 
             try {
-                //Thread.sleep((long) delayTime * 1000);
+                Thread.sleep((long) delay * 1000);
             } catch (Exception e) {
                 e.printStackTrace();
             }

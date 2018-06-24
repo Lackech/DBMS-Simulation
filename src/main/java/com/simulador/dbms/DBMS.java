@@ -14,16 +14,16 @@ public class DBMS {
 
     private double timeOut;
 
-    private double delayTime;
-
     private double maxTimeSimulation;
 
     private int totalSimulations;
 
     private int availableSystemCalls;
 
-    public DBMS(int kConnections,double delayTime,int availableSystemCalls, int nAvailableProcesses, int pConcurrentQueries, int mParalellSentences,
-                double timeOut, double maxTimeSimulation, int totalSimulations){
+    private double delay;
+
+    public DBMS(int kConnections,int availableSystemCalls, int nAvailableProcesses, int pConcurrentQueries, int mParalellSentences,
+                double timeOut,double delay, double maxTimeSimulation, int totalSimulations){
         this.setkConnections(kConnections);
         this.setnAvailableProcesses(nAvailableProcesses);
         this.setpConcurrentQueries(pConcurrentQueries);
@@ -32,13 +32,13 @@ public class DBMS {
         this.setMaxTimeSimulation(maxTimeSimulation);
         this.setTotalSimulations(totalSimulations);
         this.availableSystemCalls = availableSystemCalls;
-        this.delayTime = delayTime;
+        this.delay = delay;
     }
 
     public void runForestRun(JTextArea txtData){
         for(int i = 0;i < this.getTotalSimulations();i++){
-            //Start Everything
-            Simulator simulation = new Simulator(i + 1, 2,kConnections,availableSystemCalls,
+            //Start
+            Simulator simulation = new Simulator(i + 1,delay,kConnections,availableSystemCalls,
                     nAvailableProcesses,pConcurrentQueries,mParalellSentences,timeOut,maxTimeSimulation);
             simulation.startSimulation(txtData);
         }

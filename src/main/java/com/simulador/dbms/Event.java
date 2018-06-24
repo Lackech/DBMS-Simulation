@@ -30,14 +30,14 @@ public class Event implements Comparable<Event>{
 
     @Override
     public int compareTo(Event o) {
-        int toReturn = 0;
+        int ret = 0;
         if (associatedTime < o.getAssociatedTime())
-            toReturn = -1;
+            ret = -1;
 
         else if (associatedTime >= o.getAssociatedTime())
-            toReturn = 1;
+            ret = 1;
 
-        return toReturn;
+        return ret;
 
     }
 
