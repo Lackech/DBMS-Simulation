@@ -14,6 +14,8 @@ public class DBMS {
 
     private double timeOut;
 
+    private double delayTime;
+
     private double maxTimeSimulation;
 
     private int totalSimulations;
@@ -31,7 +33,7 @@ public class DBMS {
      * @param maxTimeSimulation
      * @param totalSimulations
      */
-    public DBMS(int kConnections,int availableSystemCalls, int nAvailableProcesses, int pConcurrentQueries, int mParalellSentences,
+    public DBMS(int kConnections,double delayTime,int availableSystemCalls, int nAvailableProcesses, int pConcurrentQueries, int mParalellSentences,
                 double timeOut, double maxTimeSimulation, int totalSimulations){
 
         this.setkConnections(kConnections);
@@ -42,6 +44,7 @@ public class DBMS {
         this.setMaxTimeSimulation(maxTimeSimulation);
         this.setTotalSimulations(totalSimulations);
         this.availableSystemCalls = availableSystemCalls;
+        this.delayTime = delayTime;
     }
 
 

@@ -172,7 +172,7 @@ public class GUI extends JFrame{
 
                     final double toUseDelay = delay;
                     int kConnections = Integer.parseInt(txtKConnections.getText());
-                    int availableSystemCalls = Integer.parseInt(txtSystemCalls.getText());
+
                     int nAvailableProcesses = Integer.parseInt(txtNAvailableProcesses.getText());
                     int pAvailableProcesses = Integer.parseInt(txtPAvailableProcesses.getText());
                     int mAvailableProcesses = Integer.parseInt(txtMAvailableProcesses.getText());
@@ -180,7 +180,7 @@ public class GUI extends JFrame{
                     Runnable toRun = new Runnable() {
                         @Override
                         public void run() {
-                            system = new DBMS(kConnections,1,nAvailableProcesses,pAvailableProcesses,mAvailableProcesses,
+                            system = new DBMS(kConnections,toUseDelay,1,nAvailableProcesses,pAvailableProcesses,mAvailableProcesses,
                                     timeout,maxTimePerSimulation,numberOfSimulations);
                             displayLiveStatistics();
                             system.runForestRun(txtDataDisplay);
@@ -271,8 +271,6 @@ public class GUI extends JFrame{
         if (!digitValidation(txtKConnections.getText(), false))
             validParameters = false;
 
-        if (!digitValidation(txtSystemCalls.getText(), false))
-            validParameters = false;
 
         if (!digitValidation(txtNAvailableProcesses.getText(), false))
             validParameters = false;

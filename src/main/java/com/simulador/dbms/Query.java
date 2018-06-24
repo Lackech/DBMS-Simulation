@@ -56,7 +56,15 @@ public class Query implements Comparable<Query>{
 
     @Override
     public int compareTo(Query o) {
-        return 0;
+        int toReturn = 0;
+        if (type.getPriority() < o.getPriority())
+            toReturn = -1;
+
+        else if (type.getPriority() > o.getPriority())
+            toReturn = 1;
+
+        return toReturn;
+
     }
 
     /**

@@ -35,6 +35,8 @@ public class Simulator {
 
     private boolean slowMode;
 
+    private double delayTime;
+
     private PriorityQueue<Event> eventList;
 
     private Hashtable<Integer, Event> killEventsTable;
@@ -49,8 +51,8 @@ public class Simulator {
 
 
 
-    public Simulator(int simulationId, double qDelayTime, int kConnections, int availableSystemCalls, int nAvailableProcesses,
-                      int pQueries, int mSentences, double timeout, double timePerTrial) {
+    public Simulator(int simulationId, double delayTime, int kConnections, int availableSystemCalls, int nAvailableProcesses,
+                      int pQueries, int mSentences, double timeOut, double timePerTrial) {
 
         // Variable initialization
         this.setSimulationId(simulationId);
@@ -68,7 +70,7 @@ public class Simulator {
         setClientConnectionModule(new ClientAdmModule(this, getProcessManagerModule(), kConnections));
         getExecutionModule().setNextModule(getClientConnectionModule());
 
-        //this.qDelayTime = qDelayTime;
+        this.delayTime = delayTime;
         this.kConnections = kConnections;
         this.availableSystemCalls = availableSystemCalls;
         this.nAvailableProcesses = nAvailableProcesses;
@@ -311,7 +313,7 @@ public class Simulator {
             data.update(data.getGraphics());
 
             try {
-                //Thread.sleep((long) 1 * 1000);
+                //Thread.sleep((long) delayTime * 1000);
             } catch (Exception e) {
                 e.printStackTrace();
             }
