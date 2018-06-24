@@ -10,9 +10,7 @@ import java.util.Queue;
  */
 public abstract class GeneralModule {
 
-
     private int totalProcessedQueries;
-
 
     protected boolean busy;
 
@@ -26,31 +24,21 @@ public abstract class GeneralModule {
 
     protected boolean hasQueue = true;
 
-
-
-
     public abstract void processEntry(Query query);
-
 
     public abstract void processExit(Query query);
 
-
     public abstract void processTerminate(Query query);
 
-
-    public abstract void generateServiceEvent(Query query);
-
+    public abstract void generateEvent(Query query);
 
     public abstract boolean isBusy();
 
-
     public abstract int getNumberOfFreeServers();
-
 
     public int getQueueSize() {
         return queue.size();
     }
-
 
     public int getTotalProcessedQueries() {
         return totalProcessedQueries;

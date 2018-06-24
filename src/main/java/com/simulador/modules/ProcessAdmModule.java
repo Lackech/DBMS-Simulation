@@ -15,9 +15,6 @@ public class ProcessAdmModule extends GeneralModule {
 
     private int currentSystemCalls;
 
-    /**
-     * Maximum amount of user-defined system calls.
-     */
     private int availableSystemCalls;
 
     public ProcessAdmModule(Simulator simulation, GeneralModule nextModule, int availableSystemCalls) {
@@ -32,13 +29,12 @@ public class ProcessAdmModule extends GeneralModule {
 
     }
 
-
     @Override
     public void processEntry(Query query) {
 
         if (this.isBusy()) {
             query.setInQueue(true);
-            queue.offer(query);
+            queue.add(query);
         } else {
             setCurrentSystemCalls(getCurrentSystemCalls() + 1);
             double normalValue = DistributionGenerationNumber.getNextRandomValueByNormal(1.5, Math.sqrt(0.1));
@@ -64,7 +60,7 @@ public class ProcessAdmModule extends GeneralModule {
 
         }
         if (!query.isTerminate()) {
-            nextModule.generateServiceEvent(query);
+            nextModule.generateEvent(query);
 
         } else {
             int actualConnections = simulation.getClientConnectionModule().getCurrentConnections() - 1;
@@ -91,7 +87,7 @@ public class ProcessAdmModule extends GeneralModule {
     }
 
     @Override
-    public void generateServiceEvent(Query query) {
+    public void generateEvent(Query query) {
 
         query.setModule(2);
         simulation.addEvent(new Event(simulation.getClock(), query, EventType.enterProcessAdmModule));
@@ -111,9 +107,6 @@ public class ProcessAdmModule extends GeneralModule {
         return availableSystemCalls- getCurrentSystemCalls();
     }
 
-    /**
-     * Amount of system calls that are being processed at a specific moment.
-     */
     public int getCurrentSystemCalls() {
         return currentSystemCalls;
     }

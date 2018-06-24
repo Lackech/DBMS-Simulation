@@ -15,36 +15,19 @@ import java.util.concurrent.LinkedBlockingQueue;
  */
 public class ClientAdmModule extends GeneralModule {
 
-    //////////////////////////////////////////// BEFORE THE QUERY IS PROCESSED ///////////////////////////////////////
-    /**
-     * Average number of arrivals to the system per time second.
-     */
+
     public static final double LAMBDA = 0.5;
 
-    /**
-     * A list of all the queries that have entered successfully to the system.
-     */
     private List<Query> allQueries;
 
-    /**
-     * User defined parameter of the amount of concurrent connections the system can handle.
-     */
     private int kConnections;
 
-    /**
-     * Counter that measures the amount of connections rejected by the system.
-     */
     private int rejectedConnections;
 
     private int currentConnections;
 
     private int totalProcessedQueriesFromLastModule;
 
-
-    /**
-     * Each query is tagged with an ID (name defined by the number of query that manages to connect into the system).
-     * Essentially, this variable traces the current query number.
-     */
     private int currentId;
 
     public ClientAdmModule(Simulator simulation, GeneralModule nextModule, int kConnections) {
@@ -64,14 +47,13 @@ public class ClientAdmModule extends GeneralModule {
 
     }
 
-
     @Override
     public void processEntry(Query query) {
         if (query.isReady()) {
-            processArrivalLastModule(query);
+            processArrivalToLastModule(query);
 
         } else {
-            processArrivalFirstModule(query);
+            processArrivalToFirstModule(query);
 
         }
 
@@ -80,10 +62,10 @@ public class ClientAdmModule extends GeneralModule {
     @Override
     public void processExit(Query query) {
         if (query.isReady())
-            processDepartureOfSystem(query);
+            processSuccessExit(query);
 
         else
-            processDepartureToNextModule(query);
+            processExitToNextModule(query);
     }
 
     @Override
@@ -94,7 +76,7 @@ public class ClientAdmModule extends GeneralModule {
     }
 
     @Override
-    public void generateServiceEvent(Query query) {
+    public void generateEvent(Query query) {
         if (query == null) {
             currentId++;
             query = new Query(currentId, simulation.getClock(), DistributionGenerationNumber.generateType(),1);
@@ -127,8 +109,15 @@ public class ClientAdmModule extends GeneralModule {
         return kConnections- getCurrentConnections();
     }
 
+    public void generateFirstArrival() {
+        currentId++;
+        Query query = new Query(currentId, simulation.getClock(), DistributionGenerationNumber.generateType(),1);
+        simulation.addEvent(new Event(simulation.getClock(), query,
+                EventType.enterClientAdmModule));
 
-    private void processArrivalFirstModule(Query query) {
+    }
+
+    private void processArrivalToFirstModule(Query query) {
         if (isBusy())
             rejectedConnections++;
         else {
@@ -140,15 +129,10 @@ public class ClientAdmModule extends GeneralModule {
 
             allQueries.add(query);
         }
-        generateServiceEvent(null);
+        generateEvent(null);
     }
 
-    /**
-     * Decides what to do with the query in case it's resolved.
-     *
-     * @param query specific resolved query.
-     */
-    private void processArrivalLastModule(Query query) {
+    private void processArrivalToLastModule(Query query) {
 
         double time = getResultantTime(query.getNumberOfBlocks());
         simulation.addEvent(new Event(time + simulation.getClock(),
@@ -156,26 +140,10 @@ public class ClientAdmModule extends GeneralModule {
 
     }
 
-    /**
-     * Creates the first event and places it in this simulation in order to start in execution time.
-     */
-    public void generateFirstArrival() {
-        currentId++;
-        Query query = new Query(currentId, simulation.getClock(), DistributionGenerationNumber.generateType(),1);
-        simulation.addEvent(new Event(simulation.getClock(), query,
-                EventType.enterClientAdmModule));
-
-    }
-
-    /**
-     * Handles the unresolved query's departure to the next module.
-     *
-     * @param query specific unresolved query.
-     */
-    private void processDepartureToNextModule(Query query) {
+    private void processExitToNextModule(Query query) {
         setTotalProcessedQueries(getTotalProcessedQueries() + 1);
         if (!query.isTerminate()) {
-            nextModule.generateServiceEvent(query);
+            nextModule.generateEvent(query);
 
         } else {
             setCurrentConnections(getCurrentConnections() - 1);
@@ -183,12 +151,7 @@ public class ClientAdmModule extends GeneralModule {
 
     }
 
-    /**
-     * Handles the resolved query's departure out of the system.
-     *
-     * @param query specific resolved query.
-     */
-    private void processDepartureOfSystem(Query query) {
+    private void processSuccessExit(Query query) {
         setTotalProcessedQueriesFromLastModule(getTotalProcessedQueriesFromLastModule() + 1);
 
         setCurrentConnections(getCurrentConnections() - 1);
@@ -199,30 +162,15 @@ public class ClientAdmModule extends GeneralModule {
 
     }
 
-    /**
-     * Generates the exit time of the module using the uniform distribution random number generator.
-     *
-     * @return the random value.
-     */
-    public double getNextExitTime() {
-        return DistributionGenerationNumber.getNextRandomValueByUniform(0.01, 0.05);
-    }
-
-    /**
-     * Creates the time the query takes to display its results to the user.
-     *
-     * @param numberOfBlocks the amount of blocks that had to be loaded for the query.
-     * @return the resultant time.
-     */
     public double getResultantTime(int numberOfBlocks) {
         double average = numberOfBlocks / 3;
         return average / 2;
     }
 
+    public double getNextExitTime() {
+        return DistributionGenerationNumber.getNextRandomValueByUniform(0.01, 0.05);
+    }
 
-    /**
-     * The amount of connections managed by the system in a specific moment.
-     */
     public int getCurrentConnections() {
         return currentConnections;
     }

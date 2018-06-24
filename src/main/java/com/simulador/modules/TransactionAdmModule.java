@@ -14,22 +14,12 @@ import java.util.PriorityQueue;
  */
 public class TransactionAdmModule extends GeneralModule {
 
-
-    /**
-     * Maximum amount of user-defined servers
-     */
     private int pQueries;
 
     private int currentProcessedQueries;
 
-    /**
-     * Defines if the entry to the servers is blocked (whenever there is a DDL-type query being processed)
-     */
     private boolean blocked;
 
-    /**
-     * Copy of the DDL-type query that has to wait in queue until all the servers are vacant.
-     */
     private Query pendingQuery;
 
     public TransactionAdmModule(Simulator simulation, GeneralModule nextModule, int pQueries) {
@@ -51,7 +41,7 @@ public class TransactionAdmModule extends GeneralModule {
         if (isBusy() || blocked) {
             //encole
             query.setInQueue(true);
-            queue.offer(query);
+            queue.add(query);
 
         } else {
             //en caso de que pueda atender
@@ -142,7 +132,7 @@ public class TransactionAdmModule extends GeneralModule {
         }
 
         if (!query.isTerminate()) {
-            nextModule.generateServiceEvent(query);
+            nextModule.generateEvent(query);
 
         } else {
             int actualConnections = simulation.getClientConnectionModule().getCurrentConnections() - 1;
@@ -178,7 +168,7 @@ public class TransactionAdmModule extends GeneralModule {
     }
 
     @Override
-    public void generateServiceEvent(Query query) {
+    public void generateEvent(Query query) {
 
         query.setModule(4);
         simulation.addEvent(new Event(simulation.getClock(), query, EventType.enterTransactionModule));
@@ -222,32 +212,6 @@ public class TransactionAdmModule extends GeneralModule {
         return numberOfBlocks;
     }
 
-    /**
-     * Calculates the coordination time between actions.
-     *
-     * @return the execution coordination time.
-     */
-    public double getExecutionCoordinationTime() {
-        return pQueries * 0.03;
-    }
-
-    /**
-     * Calculates the time it takes for the system to load the blocks that the query demands.
-     *
-     * @param numberOfBlocks the amount of blocks the query asks for.
-     * @return the time it takes for the system to load the information.
-     */
-    public double getBlockLoadingTime(int numberOfBlocks) {
-        return numberOfBlocks * 0.1;
-    }
-
-    /**
-     * Calculates the total time the query takes in service while asking and receiving
-     * the information it demands.
-     *
-     * @param query the specific query to be considered.
-     * @return the amount of time the query will be served
-     */
     public double getTotalTime(Query query) {
         int blockNumber = getBlockNumber(query.getType());
         query.setNumberOfBlocks(blockNumber);
@@ -255,9 +219,14 @@ public class TransactionAdmModule extends GeneralModule {
         return totalTime;
     }
 
-    /**
-     * Current amount of queries being processed concurrently at a specific time
-     */
+    public double getExecutionCoordinationTime() {
+        return pQueries * 0.03;
+    }
+
+    public double getBlockLoadingTime(int numberOfBlocks) {
+        return numberOfBlocks * 0.1;
+    }
+
     public int getCurrentProcessedQueries() {
         return currentProcessedQueries;
     }

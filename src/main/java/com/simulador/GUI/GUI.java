@@ -13,26 +13,13 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Iterator;
 
-public class GUI extends JFrame{
+public class GUI extends JFrame {
 
-    private final String TITLE = "Simulation";
-    private final String NUMBER_OF_SIMULATIONS = "Number of simulations";
-    private final String MAX_TIME_PER_SIMULATION = "Maximum time to run the simulation";
-    private final String SLOW_MODE = "Slow Mode";
-    private final String K_CONNECTIONS = "Number of connections to be handled (k)";
-    private final String SYSTEM_CALLS = "Number of threads for system calls";
-    private final String N_AVAILABLE_PROCESSES = "Number of available processes for query processing (n)";
-    private final String P_AVAILABLE_PROCESSES = "Number of available processes for query transactions (p)";
-    private final String M_AVAILABLE_PROCESSES = "Number of available processes for query executions (m)";
-    private final String T_TIMEOUT = "Connection timeout (t)";
-    private final String DELAY = "Delay (in seconds)";
-    private final String START = "Start";
 
     private JTextField txtNumberOfSimulations;
     private JTextField txtMaxTimePerSimulation;
     private JTextField txtDelay;
     private JTextField txtKConnections;
-    private JTextField txtSystemCalls;
     private JTextField txtNAvailableProcesses;
     private JTextField txtPAvailableProcesses;
     private JTextField txtMAvailableProcesses;
@@ -46,9 +33,10 @@ public class GUI extends JFrame{
     private int numberOfSimulations;
 
     public GUI() {
-        super.setTitle(TITLE);
+        super.setTitle("Simulation");
         super.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        JLabel lblNumberOfSimulations = new JLabel(NUMBER_OF_SIMULATIONS);
+        JLabel lblNumberOfSimulations = new JLabel("Number of simulations");
+        lblNumberOfSimulations.setForeground(Color.WHITE);
         lblNumberOfSimulations.setFont(new Font("Normal", Font.BOLD, 18));
         txtNumberOfSimulations = new JTextField();
         txtNumberOfSimulations.setFont(new Font("Normal", Font.BOLD, 18));
@@ -58,7 +46,8 @@ public class GUI extends JFrame{
         panelNumberOfSimulations.add(lblNumberOfSimulations, BorderLayout.WEST);
         panelNumberOfSimulations.add(txtNumberOfSimulations, BorderLayout.EAST);
 
-        JLabel lblMaxTimePerSimulation = new JLabel(MAX_TIME_PER_SIMULATION);
+        JLabel lblMaxTimePerSimulation = new JLabel("Time per simulation(seconds)");
+        lblMaxTimePerSimulation.setForeground(Color.WHITE);
         lblMaxTimePerSimulation.setFont(new Font("Normal", Font.BOLD, 18));
         txtMaxTimePerSimulation = new JTextField();
         txtMaxTimePerSimulation.setColumns(20);
@@ -68,9 +57,10 @@ public class GUI extends JFrame{
         panelMaxTimePerSimulation.add(lblMaxTimePerSimulation, BorderLayout.WEST);
         panelMaxTimePerSimulation.add(txtMaxTimePerSimulation, BorderLayout.EAST);
 
-        JLabel lblSlowMode = new JLabel(SLOW_MODE);
+        JLabel lblSlowMode = new JLabel("Do you want slow mode?");
+        lblSlowMode.setForeground(Color.WHITE);
         lblSlowMode.setFont(new Font("Normal", Font.BOLD, 18));
-        chkSlowMode = new JCheckBox();
+        chkSlowMode = new JCheckBox("Select YES to edit the seconds.Otherwise don't touch this.");
         chkSlowMode.setSelected(false);
         chkSlowMode.addChangeListener(new ChangeListener() {
             @Override
@@ -87,7 +77,8 @@ public class GUI extends JFrame{
         panelSlowMode.add(lblSlowMode, BorderLayout.WEST);
         panelSlowMode.add(chkSlowMode, BorderLayout.EAST);
 
-        JLabel lblDelay = new JLabel(DELAY);
+        JLabel lblDelay = new JLabel("Delay(seconds)");
+        lblDelay.setForeground(Color.WHITE);
         lblDelay.setFont(new Font("Normal", Font.BOLD, 18));
         txtDelay = new JTextField();
         txtDelay.setFont(new Font("Normal", Font.BOLD, 18));
@@ -98,7 +89,8 @@ public class GUI extends JFrame{
         panelDelay.add(lblDelay, BorderLayout.WEST);
         panelDelay.add(txtDelay, BorderLayout.EAST);
 
-        JLabel lblKConnections = new JLabel(K_CONNECTIONS);
+        JLabel lblKConnections = new JLabel("Number of connection(k)");
+        lblKConnections.setForeground(Color.WHITE);
         lblKConnections.setFont(new Font("Normal", Font.BOLD, 18));
         txtKConnections = new JTextField();
         txtKConnections.setColumns(20);
@@ -109,8 +101,8 @@ public class GUI extends JFrame{
         panelKConnections.add(txtKConnections, BorderLayout.EAST);
 
 
-
-        JLabel lblNAvailableProcesses = new JLabel(N_AVAILABLE_PROCESSES);
+        JLabel lblNAvailableProcesses = new JLabel("Number of processes in process module(n)");
+        lblNAvailableProcesses.setForeground(Color.WHITE);
         lblNAvailableProcesses.setFont(new Font("Normal", Font.BOLD, 18));
         txtNAvailableProcesses = new JTextField();
         txtNAvailableProcesses.setColumns(20);
@@ -120,7 +112,8 @@ public class GUI extends JFrame{
         panelNAvailableProcesses.add(lblNAvailableProcesses, BorderLayout.WEST);
         panelNAvailableProcesses.add(txtNAvailableProcesses, BorderLayout.EAST);
 
-        JLabel lblPAvailableProcesses = new JLabel(P_AVAILABLE_PROCESSES);
+        JLabel lblPAvailableProcesses = new JLabel("Number of processes in query process module(p)");
+        lblPAvailableProcesses.setForeground(Color.white);
         lblPAvailableProcesses.setFont(new Font("Normal", Font.BOLD, 18));
         txtPAvailableProcesses = new JTextField();
         txtPAvailableProcesses.setColumns(20);
@@ -130,7 +123,8 @@ public class GUI extends JFrame{
         panelPAvailableProcesses.add(lblPAvailableProcesses, BorderLayout.WEST);
         panelPAvailableProcesses.add(txtPAvailableProcesses, BorderLayout.EAST);
 
-        JLabel lblMAvailableProcesses = new JLabel(M_AVAILABLE_PROCESSES);
+        JLabel lblMAvailableProcesses = new JLabel("Number of sentences for executioner(m)");
+        lblMAvailableProcesses.setForeground(Color.WHITE);
         lblMAvailableProcesses.setFont(new Font("Normal", Font.BOLD, 18));
         txtMAvailableProcesses = new JTextField();
         txtMAvailableProcesses.setColumns(20);
@@ -140,7 +134,8 @@ public class GUI extends JFrame{
         panelMAvailableProcesses.add(lblMAvailableProcesses, BorderLayout.WEST);
         panelMAvailableProcesses.add(txtMAvailableProcesses, BorderLayout.EAST);
 
-        JLabel lblTimeout = new JLabel(T_TIMEOUT);
+        JLabel lblTimeout = new JLabel("Timeout");
+        lblTimeout.setForeground(Color.WHITE);
         lblTimeout.setFont(new Font("Normal", Font.BOLD, 18));
         txtTimeout = new JTextField();
         txtTimeout.setColumns(20);
@@ -151,8 +146,7 @@ public class GUI extends JFrame{
         panelTimeout.add(txtTimeout, BorderLayout.EAST);
 
 
-
-        JButton btnStart = new JButton(START);
+        JButton btnStart = new JButton("Run");
         btnStart.setSize(100, 100);
         btnStart.setFont(new Font("Normal", Font.BOLD, 18));
         JPanel panelStart = new JPanel();
@@ -161,58 +155,61 @@ public class GUI extends JFrame{
         btnStart.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (areParametersValid()) {
-                    //Empieza
 
-                    numberOfSimulations = Integer.parseInt(txtNumberOfSimulations.getText());
-                    double maxTimePerSimulation = Double.parseDouble(txtMaxTimePerSimulation.getText());
-                    double delay = 0;
-                    if (chkSlowMode.isSelected())
-                        delay = Double.parseDouble(txtDelay.getText());
+                //Empieza
 
-                    final double toUseDelay = delay;
-                    int kConnections = Integer.parseInt(txtKConnections.getText());
+                numberOfSimulations = Integer.parseInt(txtNumberOfSimulations.getText());
+                double maxTimePerSimulation = Double.parseDouble(txtMaxTimePerSimulation.getText());
+                double delay = 0;
+                if (chkSlowMode.isSelected())
+                    delay = Double.parseDouble(txtDelay.getText());
 
-                    int nAvailableProcesses = Integer.parseInt(txtNAvailableProcesses.getText());
-                    int pAvailableProcesses = Integer.parseInt(txtPAvailableProcesses.getText());
-                    int mAvailableProcesses = Integer.parseInt(txtMAvailableProcesses.getText());
-                    double timeout = Double.parseDouble(txtTimeout.getText());
-                    Runnable toRun = new Runnable() {
-                        @Override
-                        public void run() {
-                            system = new DBMS(kConnections,toUseDelay,1,nAvailableProcesses,pAvailableProcesses,mAvailableProcesses,
-                                    timeout,maxTimePerSimulation,numberOfSimulations);
-                            displayLiveStatistics();
-                            system.runForestRun(txtDataDisplay);
-                        }
-                    };
-                    new Thread(toRun).start();
-                } else {
-                    JDialog nonValidParametersDialog = new JDialog();
-                    JLabel message = new JLabel("One or more parameters are either missing or are not valid");
-                    message.setFont(new Font("Normal", Font.BOLD, 20));
-                    nonValidParametersDialog.add(message);
-                    nonValidParametersDialog.pack();
-                    nonValidParametersDialog.setVisible(true);
-                }
+                final double toUseDelay = delay;
+                int kConnections = Integer.parseInt(txtKConnections.getText());
+
+                int nAvailableProcesses = Integer.parseInt(txtNAvailableProcesses.getText());
+                int pAvailableProcesses = Integer.parseInt(txtPAvailableProcesses.getText());
+                int mAvailableProcesses = Integer.parseInt(txtMAvailableProcesses.getText());
+                double timeout = Double.parseDouble(txtTimeout.getText());
+                Runnable toRun = new Runnable() {
+                    @Override
+                    public void run() {
+                        system = new DBMS(kConnections, toUseDelay, 1, nAvailableProcesses, pAvailableProcesses, mAvailableProcesses,
+                                timeout, maxTimePerSimulation, numberOfSimulations);
+                        displayLiveStatistics();
+                        system.runForestRun(txtDataDisplay);
+                    }
+                };
+                new Thread(toRun).start();
+
 
             }
         });
 
         JPanel mainPanel = new JPanel();
         mainPanel.setLayout(new GridLayout(0, 1, 0, 20));
-
+        mainPanel.setBackground(Color.BLACK);
+        panelNumberOfSimulations.setBackground(Color.BLACK);
         mainPanel.add(panelNumberOfSimulations);
+        panelMaxTimePerSimulation.setBackground(Color.BLACK);
         mainPanel.add(panelMaxTimePerSimulation);
+        panelSlowMode.setBackground(Color.BLACK);
         mainPanel.add(panelSlowMode);
+        panelDelay.setBackground(Color.BLACK);
         mainPanel.add(panelDelay);
+        panelKConnections.setBackground(Color.BLACK);
         mainPanel.add(panelKConnections);
+        panelNAvailableProcesses.setBackground(Color.BLACK);
         mainPanel.add(panelNAvailableProcesses);
+        panelPAvailableProcesses.setBackground(Color.BLACK);
         mainPanel.add(panelPAvailableProcesses);
+        panelMAvailableProcesses.setBackground(Color.BLACK);
         mainPanel.add(panelMAvailableProcesses);
+        panelTimeout.setBackground(Color.BLACK);
         mainPanel.add(panelTimeout);
+        panelStart.setBackground(Color.BLACK);
         mainPanel.add(panelStart);
-        Border padding = BorderFactory.createEmptyBorder(15, 15, 15, 15);
+        Border padding = BorderFactory.createEmptyBorder(30, 30, 30, 30);
         mainPanel.setBorder(padding);
 
         super.add(mainPanel);
@@ -236,77 +233,22 @@ public class GUI extends JFrame{
         txtDataDisplay.setEditable(false);
         JPanel panel = new JPanel();
         panel.setLayout(new BoxLayout(panel, BoxLayout.PAGE_AXIS));
-        JButton btnNext = new JButton("Next");
+        panel.setBackground(Color.BLACK);
+        JButton btnNext = new JButton("Get Statistics");
         btnNext.setFont(new Font("Normal", Font.BOLD, 18));
+
         btnNext.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                //displayAllFinalSimulationResults();
+                //displayStatistics
             }
         });
 
         JScrollPane jsp = new JScrollPane(txtDataDisplay, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         panel.add(jsp);
-        panel.add(btnNext);
+        panel.add(btnNext,BorderLayout.CENTER);
         changeLayout(panel);
     }
 
-
-
-
-
-    private boolean areParametersValid() {
-
-        boolean validParameters = true;
-
-        if (!digitValidation(txtNumberOfSimulations.getText(), false))
-            validParameters = false;
-
-        if (!digitValidation(txtMaxTimePerSimulation.getText(), true))
-            validParameters = false;
-
-        if (chkSlowMode.isSelected() && !digitValidation(txtDelay.getText(), true))
-            validParameters = false;
-
-        if (!digitValidation(txtKConnections.getText(), false))
-            validParameters = false;
-
-
-        if (!digitValidation(txtNAvailableProcesses.getText(), false))
-            validParameters = false;
-
-        if (!digitValidation(txtPAvailableProcesses.getText(), false))
-            validParameters = false;
-
-        if (!digitValidation(txtMAvailableProcesses.getText(), false))
-            validParameters = false;
-
-        if (!digitValidation(txtTimeout.getText(), true))
-            validParameters = false;
-
-        if (!digitValidation(txtMaxTimePerSimulation.getText(), true))
-            validParameters = false;
-
-        return validParameters;
-    }
-
-    private boolean digitValidation(String number, boolean isDouble) {
-        boolean isDigit = true;
-        if (number.equals(""))
-            isDigit = false;
-
-        for (int i = 0; i < number.length() && isDigit; i++) {
-            char currentCharacter = number.charAt(i);
-            if (!Character.isDigit(currentCharacter)) {
-                if (!isDouble) {
-                    isDigit = false;
-                } else {
-                    if (currentCharacter != '.')
-                        isDigit = false;
-                }
-            }
-        }
-        return isDigit;
-    }
 
 }

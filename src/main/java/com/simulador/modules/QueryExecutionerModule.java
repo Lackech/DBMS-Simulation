@@ -13,20 +13,10 @@ import java.util.concurrent.LinkedBlockingQueue;
  */
 public class QueryExecutionerModule extends GeneralModule {
 
-
-    /**
-     * The fixed amount of time taken for a DDL query type to execute.
-     */
     private final double DDL_RESTRUCTRATION_TIME = 0.5;
 
-    /**
-     * The fixed amount of time taken for an Update query type to execute.
-     */
     private final double UPDATE_RESTRUCTURATION_TIME = 1;
 
-    /**
-     * The maximum amount of sentences defined by the user in this module.
-     */
     private int mSentences;
 
     private int currentSentences;
@@ -37,15 +27,13 @@ public class QueryExecutionerModule extends GeneralModule {
         this.mSentences = mSentences;
         setCurrentSentences(0);
         servers = mSentences;
-
     }
-
 
     @Override
     public void processEntry(Query query) {
         if (isBusy()) {
             query.setInQueue(true);
-            queue.offer(query);
+            queue.add(query);
 
         } else {
 
@@ -79,7 +67,7 @@ public class QueryExecutionerModule extends GeneralModule {
         if (!query.isTerminate()) {
             query.setReady(true);
 
-            nextModule.generateServiceEvent(query);
+            nextModule.generateEvent(query);
 
 
         } else {
@@ -105,7 +93,7 @@ public class QueryExecutionerModule extends GeneralModule {
     }
 
     @Override
-    public void generateServiceEvent(Query query) {
+    public void generateEvent(Query query) {
         query.setModule(5);
         simulation.addEvent(new Event(simulation.getClock(), query, EventType.enterQueryExecModule));
 
@@ -125,24 +113,11 @@ public class QueryExecutionerModule extends GeneralModule {
     }
 
     public double getBlockExecutingTime(int numberOfBlocks) {
+
         return Math.pow(numberOfBlocks, 2) / 1000;
     }
 
-
-
-    public double getTotalTime(Query query) {
-        double totalTime = this.getBlockExecutingTime(query.getNumberOfBlocks());
-        totalTime += getRestructurationTime(query.getType());
-        return totalTime;
-    }
-
-    /**
-     * Sums the special restructuration time in case the query type is DDL or Update.
-     *
-     * @param query the specific query to be analized.
-     * @return 0 if the query doesn't fall in any of the two cases.
-     */
-    private double getRestructurationTime(QueryType query) {
+    private double getRestructTime(QueryType query) {
         double time = 0;
         if (query == QueryType.DDL) {
             time = DDL_RESTRUCTRATION_TIME;
@@ -152,14 +127,16 @@ public class QueryExecutionerModule extends GeneralModule {
         return time;
     }
 
+    public double getTotalTime(Query query) {
+        double time = this.getBlockExecutingTime(query.getNumberOfBlocks());
+        time += getRestructTime(query.getType());
+        return time;
+    }
+
     public void setNextModule(GeneralModule nextModule) {
         this.nextModule = nextModule;
     }
 
-
-    /**
-     * The amount of sentences being occupied at an instant.
-     */
     public int getCurrentSentences() {
         return currentSentences;
     }

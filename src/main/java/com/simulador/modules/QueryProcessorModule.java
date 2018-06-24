@@ -15,10 +15,6 @@ import java.util.concurrent.LinkedBlockingQueue;
  */
 public class QueryProcessorModule extends GeneralModule {
 
-
-    /**
-     * Maximum amount of user-defined processes
-     */
     private int nAvailableProcesses;
 
     private int currentProcesses;
@@ -32,18 +28,17 @@ public class QueryProcessorModule extends GeneralModule {
         servers = nAvailableProcesses;
     }
 
-
     @Override
     public void processEntry(Query query) {
 
         if (isBusy()) {
             query.setInQueue(true);
-            queue.offer(query);
+            queue.add(query);
 
         } else {
 
             setCurrentProcesses(getCurrentProcesses() + 1);
-            double exitTime = timeInQueryProcessingModule(query.getType());
+            double exitTime = timeInQueryProcessorModule(query.getType());
             simulation.addEvent(new Event(simulation.getClock() + exitTime,
                     query, EventType.exitQueryProcessorModule));
         }
@@ -53,7 +48,7 @@ public class QueryProcessorModule extends GeneralModule {
     public void processExit(Query query) {
 
         if (queue.size() > 0) {
-            double exitTime = timeInQueryProcessingModule(queue.peek().getType());
+            double exitTime = timeInQueryProcessorModule(queue.peek().getType());
             Query query1 = queue.poll();
             query1.setInQueue(false);
             simulation.addEvent(new Event(simulation.getClock() + exitTime,
@@ -65,7 +60,7 @@ public class QueryProcessorModule extends GeneralModule {
         }
 
         if (!query.isTerminate()) {
-            nextModule.generateServiceEvent(query);
+            nextModule.generateEvent(query);
         } else {
             int actualConnections = simulation.getClientConnectionModule().getCurrentConnections() - 1;
             simulation.getClientConnectionModule().setCurrentConnections(actualConnections);
@@ -91,7 +86,7 @@ public class QueryProcessorModule extends GeneralModule {
     }
 
     @Override
-    public void generateServiceEvent(Query query) {
+    public void generateEvent(Query query) {
 
         query.setModule(3);
         simulation.addEvent(new Event(simulation.getClock(), query, EventType.enterQueryProcessorModule));
@@ -111,15 +106,7 @@ public class QueryProcessorModule extends GeneralModule {
         return nAvailableProcesses - getCurrentProcesses();
     }
 
-
-
-    /**
-     * Calculates the amount of validation time of a specific query inside the Query Processing Module.
-     *
-     * @param query to be validated
-     * @return the amount of time it took for the query to be validated
-     */
-    private double timeInQueryProcessingModule(QueryType query) {
+    private double timeInQueryProcessorModule(QueryType query) {
         Random rnd = new Random();
         double totalTime;
         double lexicalValidationTime;
@@ -147,10 +134,6 @@ public class QueryProcessorModule extends GeneralModule {
         return totalTime;
     }
 
-
-    /**
-     * Amount of processes in a specific instant.
-     */
     public int getCurrentProcesses() {
         return currentProcesses;
     }

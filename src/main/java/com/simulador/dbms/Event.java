@@ -19,7 +19,6 @@ public class Event implements Comparable<Event>{
 
     private boolean terminate;
 
-
     public Event(double time, Query query, EventType eventType) {
         this.setModule(eventType.getTypeMod());
         this.setAssociatedQuery(query);
@@ -42,9 +41,6 @@ public class Event implements Comparable<Event>{
 
     }
 
-    /**
-     *  Type of the event. Also indicates if is an entry or an exit.
-     */
     public EventType getTypeOfEvent() {
         return typeOfEvent;
     }
@@ -53,9 +49,6 @@ public class Event implements Comparable<Event>{
         this.typeOfEvent = typeOfEvent;
     }
 
-    /**
-     *  Associated time in the exact moment to the event.
-     */
     public Double getAssociatedTime() {
         return associatedTime;
     }
@@ -64,9 +57,6 @@ public class Event implements Comparable<Event>{
         this.associatedTime = associatedTime;
     }
 
-    /**
-     * Associated query to the event.
-     */
     public Query getAssociatedQuery() {
         return associatedQuery;
     }
@@ -75,9 +65,6 @@ public class Event implements Comparable<Event>{
         this.associatedQuery = associatedQuery;
     }
 
-    /**
-     * The module to process the event.
-     */
     public int getModule() {
         return module;
     }

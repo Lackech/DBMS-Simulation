@@ -8,7 +8,6 @@ import com.simulador.statistics.QueryStatistics;
  */
 public class Query implements Comparable<Query>{
 
-
     private int id;
 
     private QueryStatistics queryStatistics;
@@ -33,12 +32,6 @@ public class Query implements Comparable<Query>{
 
     private boolean terminate;
 
-    /**
-     *
-     * @param id
-     * @param entryTime
-     * @param type
-     */
     public Query(int id, double entryTime, QueryType type, int module) {
         this.setId(id);
         this.setEntryTime(entryTime);
@@ -67,9 +60,6 @@ public class Query implements Comparable<Query>{
 
     }
 
-    /**
-     * Identifier for the query. Its unique.
-     */
     public int getId() {
         return id;
     }
@@ -78,9 +68,6 @@ public class Query implements Comparable<Query>{
         this.id = id;
     }
 
-    /**
-     * Statistics instance to store all the information about the query for the calcs.
-     */
     public QueryStatistics getQueryStatistics() {
         return queryStatistics;
     }
@@ -89,9 +76,6 @@ public class Query implements Comparable<Query>{
         this.queryStatistics = queryStatistics;
     }
 
-    /**
-     * Type of the query. It can be SELECT,JOIN,DDL,UPDATE.
-     */
     public QueryType getType() {
         return type;
     }
@@ -100,9 +84,6 @@ public class Query implements Comparable<Query>{
         this.type = type;
     }
 
-    /**
-     *  Bool to check if the query hasn't reached timeout.
-     */
     public boolean isExceedTimeOut() {
         return exceedTimeOut;
     }
@@ -111,9 +92,6 @@ public class Query implements Comparable<Query>{
         this.exceedTimeOut = exceedTimeOut;
     }
 
-    /**
-     *  Bool to check if the query was refused to connect.
-     */
     public boolean isConnectionRefused() {
         return connectionRefused;
     }
@@ -122,9 +100,6 @@ public class Query implements Comparable<Query>{
         this.connectionRefused = connectionRefused;
     }
 
-    /**
-     *  Bool to check if the query is in some queue.
-     */
     public boolean isInQueue() {
         return inQueue;
     }
@@ -133,9 +108,6 @@ public class Query implements Comparable<Query>{
         this.inQueue = inQueue;
     }
 
-    /**
-     *  Number that indicates the time of the clock when its created.
-     */
     public double getEntryTime() {
         return entryTime;
     }
@@ -144,9 +116,6 @@ public class Query implements Comparable<Query>{
         this.entryTime = entryTime;
     }
 
-    /**
-     *  Timelife of the query.
-     */
     public double getLifeTime() {
         return lifeTime;
     }
@@ -155,9 +124,6 @@ public class Query implements Comparable<Query>{
         this.lifeTime = lifeTime;
     }
 
-    /**
-     *  Bool that indicates if the query is ready to pass to the next module.
-     */
     public boolean isReady() {
         return ready;
     }
@@ -166,9 +132,6 @@ public class Query implements Comparable<Query>{
         this.ready = ready;
     }
 
-    /**
-     *  Return the priority of the query based on its type.
-     */
     public int getPriority(){
         return type.getPriority();
     }

@@ -22,7 +22,6 @@ public enum EventType {
 
     public boolean getIsEntry(){return isEntry; }
 
-
     public boolean isTerminate() {
         return terminate;
     }
